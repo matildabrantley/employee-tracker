@@ -23,22 +23,23 @@ CREATE TABLE Employees(
   last_name VARCHAR(30) NOT NULL,
   role_id INT NOT NULL,
   manager_id INT,
-  PRIMARY KEY (id),
-  --FOREIGN KEY (role_id) REFERENCES Roles(roles_id)
+  PRIMARY KEY (id)
 );
 
 INSERT INTO Employees (first_name, last_name, role_id, manager_id)
 VALUES ("Bob", "Smith", 1, 1);
 INSERT INTO Employees (first_name, last_name, role_id, manager_id)
-VALUES ("John", "Smith", 2, 1);
+VALUES ("Mike", "Chan", 2, 1);
 INSERT INTO Employees (first_name, last_name, role_id, manager_id)
-VALUES ("Jane", "Smith", 3, 1);
+VALUES ("Jane", "Brown", 3, 1);
 INSERT INTO Employees (first_name, last_name, role_id, manager_id)
-VALUES ("Jessica", "Smith", 4, 1);
+VALUES ("Jessica", "Smith", 4, 2);
 INSERT INTO Employees (first_name, last_name, role_id, manager_id)
-VALUES ("Finame", "Laname", 5, 1);
+VALUES ("Luiz", "Rodriguez", 5, 2);
 INSERT INTO Employees (first_name, last_name, role_id, manager_id)
-VALUES ("Omy", "Goodness", 6, 1);
+VALUES ("Omy", "Goodness", 6, 3);
+INSERT INTO Employees (first_name, last_name, role_id, manager_id)
+VALUES ("Charles", "McLondon", 6, 3);
 
 
 CREATE TABLE Roles(
