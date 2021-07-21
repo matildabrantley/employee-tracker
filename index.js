@@ -19,22 +19,29 @@ const connection = mysql.createConnection({
         name: 'mainMenu',
         type: 'list',
         message: 'What would you like to do?',
-        choices: ['Add Employee', 'View All Employeees', 'Exit'],
+        choices: ['View All Employeees', 'View All Roles', 'View All Departments',
+        'Add Employee', 'Add Role', 'Add Department', 'Exit'],
       })
       .then((answer) => {
 
         switch (answer.mainMenu) {
             case 'View All Employeees':
-                viewAllemployees();
+                viewAllEmployees();
+              break;
+            case 'View All Roles':
+                viewAllRoles();
+              break;
+            case 'View All Departments':
+                viewAllDepartments();
               break;
             case 'Add Employee':
                 addEmployee();
               break;
             case 'Add Role':
-                addEmployee();
+                addRole();
               break;
             case 'Add Department':
-                addEmployee();
+                addDepartment();
               break;
             case 'Exit':
               connection.end();
@@ -46,7 +53,24 @@ const connection = mysql.createConnection({
       });
   };
 
-  const viewAllemployees = () => {}
+  const viewAllEmployees = () => {
+    connection.query('SELECT * FROM Employees', (err, queryResults) => {
+      console.table(queryResults);
+      start();
+    });
+  }
+  const viewAllRoles = () => {
+    connection.query('SELECT * FROM Roles', (err, queryResults) => {
+      console.table(queryResults);
+      start();
+    });
+  }
+  const viewAllDepartments = () => {
+    connection.query('SELECT * FROM Departments', (err, queryResults) => {
+      console.table(queryResults);
+      start();
+    });
+  }
 
   const addEmployee = () => {
     connection.query('SELECT title FROM Roles', (err, queryResults) => {
@@ -100,6 +124,8 @@ const connection = mysql.createConnection({
         });
     });
 }
+
+
 
 const getRoleId = (role) => {
   let role_id;
