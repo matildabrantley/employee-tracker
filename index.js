@@ -30,6 +30,12 @@ const connection = mysql.createConnection({
             case 'Add Employee':
                 addEmployee();
               break;
+            case 'Add Role':
+                addEmployee();
+              break;
+            case 'Add Department':
+                addEmployee();
+              break;
             case 'Exit':
               connection.end();
               break;
@@ -43,7 +49,7 @@ const connection = mysql.createConnection({
   const viewAllemployees = () => {}
 
   const addEmployee = () => {
-    connection.query('SELECT * FROM Roles', (err, queryResults) => {
+    connection.query('SELECT title FROM Roles', (err, queryResults) => {
         inquirer
         .prompt([
             {
@@ -57,17 +63,16 @@ const connection = mysql.createConnection({
             message: 'What is the last name of new employee?',
             },
             {
-            name: 'role_id',
-            type: 'list',
-            message: 'In which role is the new employee?',
-            choices: [1, 2, 3],
-            // choices() {
-            //     const choiceArray = [];
-            //     queryResults.forEach(({ role }) => {
-            //     choiceArray.push(role);
-            //     });
-            //     return choiceArray;
-            // }
+              name: 'role',
+              type: 'list',
+              choices() {
+                const choiceArray = [];
+                queryResults.forEach(({ title }) => {
+                  choiceArray.push(title);
+                });
+                return choiceArray;
+              },
+              message: 'In what role is the new employee?',
             },
             {
               name: 'manager_id',
@@ -77,12 +82,13 @@ const connection = mysql.createConnection({
             }
         ])
         .then((answer) => {
+            //const r_id = getRoleId(answer.role)
             connection.query(
             'INSERT INTO Employees SET ?',
             {
                 first_name: answer.first_name,
                 last_name: answer.last_name,
-                role_id: answer.role_id,
+                role_id: answer.role,
                 manager_id: answer.manager_id,
             },
             (err) => {
@@ -94,5 +100,14 @@ const connection = mysql.createConnection({
         });
     });
 }
+
+const getRoleId = (role) => {
+  let role_id;
+  connection.query(`SELECT id FROM Roles WHERE title = '${role}'`, (err, result) => {
+    role_id = result[0].id;
+  });
+  return role_id;
+}
+
 
   start();

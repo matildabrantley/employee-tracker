@@ -23,7 +23,8 @@ CREATE TABLE Employees(
   last_name VARCHAR(30) NOT NULL,
   role_id INT NOT NULL,
   manager_id INT,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  --FOREIGN KEY (role_id) REFERENCES Roles(roles_id)
 );
 
 INSERT INTO Employees (first_name, last_name, role_id, manager_id)
