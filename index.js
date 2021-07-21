@@ -73,6 +73,59 @@ const connection = mysql.createConnection({
   }
 
   const addEmployee = () => {
+    connection.query('SELECT title, id FROM Roles', (err, queryResults) => {
+        inquirer
+        .prompt([
+            {
+            name: 'first_name',
+            type: 'input',
+            message: 'What is the first name of new employee?',
+            },
+            {
+            name: 'last_name',
+            type: 'input',
+            message: 'What is the last name of new employee?',
+            },
+            {
+              name: 'role',
+              type: 'list',
+              choices() {
+                const choiceArray = [];
+                queryResults.forEach((queryResults) => {
+                  choiceArray.push({ name:queryResults.title, value:queryResults.id});
+                });
+                return choiceArray;
+              },
+              message: 'In what role is the new employee?',
+            },
+            {
+              name: 'manager_id',
+              type: 'list',
+              message: 'Who is the manager of the new employee?',
+              choices: [1, 2, 3],
+            }
+        ])
+        .then((answer) => {
+          console.log(answer);
+            //const r_id = getRoleId(answer.role)
+            connection.query(
+            'INSERT INTO Employees SET ?',
+            {
+                first_name: answer.first_name,
+                last_name: answer.last_name,
+                role_id: answer.role,
+                manager_id: answer.manager_id,
+            },
+            (err) => {
+                if (err) throw err;
+                console.log(`\n${answer.first_name} ${answer.last_name} added to the team! \n`);
+                start();
+            }
+            );
+        });
+    });
+}
+  const addRole = () => {
     connection.query('SELECT title FROM Roles', (err, queryResults) => {
         inquirer
         .prompt([
@@ -117,7 +170,7 @@ const connection = mysql.createConnection({
             },
             (err) => {
                 if (err) throw err;
-                console.log('');
+                console.log(`\nNew ${answer.role} ${answer.first_name} ${answer.last_name} added to the team! \n`);
                 start();
             }
             );
