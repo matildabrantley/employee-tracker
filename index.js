@@ -2,6 +2,7 @@ const mysql = require('mysql');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 
+//connect to MySQL database
 const connection = mysql.createConnection({
     host: 'localhost',
     // port
@@ -13,7 +14,7 @@ const connection = mysql.createConnection({
     database: 'employee_DB',
   });
   
-
+  //begin Inquirer prompt
   const start = () => {
     inquirer
       .prompt({
@@ -54,6 +55,7 @@ const connection = mysql.createConnection({
       });
   };
 
+  //View all employees in the database
   const viewAllEmployees = () => {
     connection.query('SELECT * FROM Employees', (err, queryResults) => {
       let table = cTable.getTable(queryResults);
@@ -61,6 +63,7 @@ const connection = mysql.createConnection({
       start();
     });
   }
+  //View all roles in the database
   const viewAllRoles = () => {
     connection.query('SELECT * FROM Roles', (err, queryResults) => {
       let table = cTable.getTable(queryResults);
@@ -68,6 +71,7 @@ const connection = mysql.createConnection({
       start();
     });
   }
+  //View all departments in the database
   const viewAllDepartments = () => {
     connection.query('SELECT * FROM Departments', (err, queryResults) => {
       let table = cTable.getTable(queryResults);
@@ -76,6 +80,7 @@ const connection = mysql.createConnection({
     });
   }
 
+  //Add new employee to Employees table
   const addEmployee = () => {
     connection.query('SELECT title, id FROM Roles', (err, queryResults) => {
         inquirer
@@ -176,6 +181,7 @@ const addRole = () => {
         });
     });
   }
+//Add new department to Departments table
 const addDepartment = () => {
   inquirer
     .prompt([
